@@ -68,130 +68,78 @@ int getY(int t)
     return 4;    
 }
 
+void binaryLed(int mux, char bin[3])
+{
+  if (mux == 0)
+  {
+    digitalWrite(A3, LOW);
+    digitalWrite(10, (bin[0] == '1'));
+    digitalWrite(9, (bin[1] == '1'));
+    digitalWrite(8, (bin[2] == '1'));
+  }
+  else if (mux == 1)
+  {
+    digitalWrite(A4, LOW);
+    digitalWrite(13, (bin[0] == '1'));
+    digitalWrite(12, (bin[1] == '1'));
+    digitalWrite(11, (bin[2] == '1'));
+  }
+}
+
 void lightX(int x, int z)
 {
 
   if (z == 0)
   {
     if (x == 0)
-    {
-      digitalWrite(13, HIGH); 
-      digitalWrite(12, HIGH);
-      digitalWrite(11, LOW);      
-    }
+      binaryLed(1, "110");
     if (x == 1)
-    {
-      digitalWrite(13, HIGH);
-      digitalWrite(12, LOW);      
-      digitalWrite(11, LOW);            
-    }
+      binaryLed(1, "100");      
     if (x == 2)
-    {
-      digitalWrite(13, HIGH);
-      digitalWrite(12, HIGH);        
-      digitalWrite(11, HIGH);
-    }
+      binaryLed(1, "111");      
     if (x == 3)
-    {
-      digitalWrite(13, LOW);      
-      digitalWrite(12, LOW);            
-      digitalWrite(11, HIGH);
-    }
+      binaryLed(1, "001");      
   }  
   else if (z == 1)
   {
     if (x == 0)
-    {
-      digitalWrite(13, LOW);
-      digitalWrite(12, LOW);      
-      digitalWrite(11, LOW);            
-    }
+      binaryLed(1, "000");
     if (x == 1)
-    {
-      digitalWrite(13, LOW);
-      digitalWrite(12, HIGH);
-      digitalWrite(11, LOW);      
-    }
+      binaryLed(1, "010");
     if (x == 2)
-    {
-      digitalWrite(13, LOW);      
-      digitalWrite(12, HIGH);
-      digitalWrite(11, HIGH); 
-    }
+      binaryLed(1, "011");
     if (x == 3)
-    {
-      digitalWrite(13, HIGH);
-      digitalWrite(12, LOW);
-      digitalWrite(11, HIGH);      
-    }
+      binaryLed(1, "101");
   }
-  if (z == 2)
+  else if (z == 2)
   {
     if (x == 0)
-    {
-      digitalWrite(10, HIGH); 
-      digitalWrite(9, HIGH);
-      digitalWrite(8, LOW);      
-    }
+      binaryLed(0, "110");
     if (x == 1)
-    {
-      digitalWrite(10, HIGH);
-      digitalWrite(9, LOW);      
-      digitalWrite(8, LOW);            
-    }
+      binaryLed(0, "100");
     if (x == 2)
-    {
-      digitalWrite(10, LOW);
-      digitalWrite(9, LOW);      
-      digitalWrite(8, LOW);                  
-    }
+      binaryLed(0, "000");
     if (x == 3)
-    {
-      digitalWrite(10, HIGH);
-      digitalWrite(9, HIGH);        
-      digitalWrite(8, HIGH);      
-    }
+      binaryLed(0, "111");
   }  
   else if (z == 3)
   {
-    if (x == 2)
-    {
-      digitalWrite(10, LOW);      
-      digitalWrite(9, LOW);            
-      digitalWrite(8, HIGH);
-    }
     if (x == 0)
-    {
-      digitalWrite(10, LOW);
-      digitalWrite(9, HIGH);
-      digitalWrite(8, LOW);      
-    }
-    if (x == 3)
-    {
-      digitalWrite(10, LOW);      
-      digitalWrite(9, HIGH);
-      digitalWrite(8, HIGH); 
-    }
+      binaryLed(0, "010");
     if (x == 1)
-    {
-      digitalWrite(10, HIGH);
-      digitalWrite(9, LOW);
-      digitalWrite(8, HIGH);      
-    }
+      binaryLed(0, "101");
+    if (x == 2)
+      binaryLed(0, "001");
+    if (x == 3)
+      binaryLed(0, "011");
   }  
 }
 
 void light(int x, int y, int z)
 {
-  reset();
-  if (z > 1)
-    digitalWrite(A3, LOW);
-  else    
-    digitalWrite(A4, LOW);
-  
-  digitalWrite(getY(y), LOW);
-   
+  reset();   
   lightX(x, z);
+  digitalWrite(getY(y), LOW);  
   delayMicroseconds(1500);
 }
 
@@ -354,5 +302,5 @@ void loop()
 	else if (_time < 900)				
 		planeEffect(PLANE_YZ, 2);		
 	else if (_time == 900)
-		clear();		
+		clear();		 
 }
