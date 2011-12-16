@@ -3,6 +3,7 @@
 #define PLANE_XZ 2
 #define PLANE_YZ 3
 
+
 int m[4][4][4] = { 
   { 
     { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }
@@ -38,34 +39,6 @@ void setup()
   pinMode(A4, OUTPUT);
   pinMode(A3, OUTPUT);
   Serial.begin(9600);
-}
-
-void reset()
-{
-  digitalWrite(3, HIGH);
-  digitalWrite(4, HIGH);
-  digitalWrite(5, HIGH);
-  digitalWrite(6, HIGH);
-  digitalWrite(A3, HIGH);
-  digitalWrite(A4, HIGH);
-  digitalWrite(8, LOW);
-  digitalWrite(9, LOW); 
-  digitalWrite(10, LOW);
-  digitalWrite(11, LOW);
-  digitalWrite(12, LOW);
-  digitalWrite(13, LOW);
-}
-
-int getY(int t)
-{
-  if (t == 0)
-    return 5;
-  if (t == 1)
-    return 6;
-  if (t == 2)
-    return 3;    
-  if (t == 3)
-    return 4;    
 }
 
 void binaryLed(int mux, char bin[3])
@@ -142,6 +115,36 @@ void light(int x, int y, int z)
   digitalWrite(getY(y), LOW);  
   delayMicroseconds(1500);
 }
+
+void reset()
+{
+  digitalWrite(3, HIGH);
+  digitalWrite(4, HIGH);
+  digitalWrite(5, HIGH);
+  digitalWrite(6, HIGH);
+  digitalWrite(A3, HIGH);
+  digitalWrite(A4, HIGH);
+  digitalWrite(8, LOW);
+  digitalWrite(9, LOW); 
+  digitalWrite(10, LOW);
+  digitalWrite(11, LOW);
+  digitalWrite(12, LOW);
+  digitalWrite(13, LOW);
+}
+
+int getY(int t)
+{
+  if (t == 0)
+    return 5;
+  if (t == 1)
+    return 6;
+  if (t == 2)
+    return 3;    
+  if (t == 3)
+    return 4;    
+}
+
+
 
 void setLayer(int y, int v)
 {
@@ -292,15 +295,33 @@ void loop()
       }
       
 	if (_time < 300)
-		planeEffect(PLANE_XY, 2);
+	  planeEffect(PLANE_XY, 2);
 	else if (_time == 300)
-		clear();
+	  clear();
 	else if (_time < 600)		
-		planeEffect(PLANE_XZ, 2);
+	  planeEffect(PLANE_XZ, 2);
 	else if (_time == 600)
-		clear();		
+	  clear();		
 	else if (_time < 900)				
-		planeEffect(PLANE_YZ, 2);		
+	  planeEffect(PLANE_YZ, 2);		
 	else if (_time == 900)
-		clear();		 
+          clear();
+        else if (_time < 1200)
+          columnEffect(5);
+	else if (_time == 1500)
+	  clear();	          
+        else if (_time < 1500)
+          rowEffect(5);     
+	else if (_time == 1500)
+	  clear();	          
+        else if (_time < 1800)
+          rainEffect(5);      
+	else if (_time == 1800)
+        {
+	   _time = 0;
+
+              clear();	          
+        }
+
+        
 }
